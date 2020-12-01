@@ -1,13 +1,12 @@
 * {
     padding: 0;
     margin: 0;
-    background-color: black;
-    color: green;
 }
 
 .title {
     text-align: center;
     margin: 1em 0;
+    color: green;
 }
 
 .btn {
@@ -17,6 +16,7 @@
 
 body {
     background-color: black !important;
+    background-color: black;
 }
 
 h3 {
@@ -25,4 +25,12 @@ h3 {
 
 .detail {
     color: rgb(0, 255, 0);
+}
+
+.fa-edit {
+    color: yellow;
+}
+
+.fa-trash-alt {
+    color: red;
 }

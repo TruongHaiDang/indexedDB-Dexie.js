@@ -6,6 +6,7 @@ $(document).ready(function() {
                 upgrade
             });
         db.open();
+        window.db = db;
         return db;
     }
     
@@ -13,9 +14,10 @@ $(document).ready(function() {
                 toDo: `++id, *task, date, time`
             }, {});
     
-    var getDocs = function() {
+    var getAllDocs = function() {
         db.toDo.count((cnt) => {
             if(cnt) {
+                $(".task-added-element").remove();
                 db.toDo.each((record) => {
                     createEl(record)
                 })
@@ -33,7 +35,7 @@ $(document).ready(function() {
             db.toDo.bulkAdd([data])
                 .then((result) => {
                     document.getElementById("task").value = document.getElementById("date").value = document.getElementById("time").value = "";
-                    getDocs();
+                    getAllDocs();
                     alert("added successfully")
                 }).catch((err) => {
                     alert("added fail")
@@ -45,27 +47,27 @@ $(document).ready(function() {
     
     var updateDocs = function() {
         let data = {
-            id : document.getElementById("id").value,
+            id : Number(document.getElementById("id").value),
             task : document.getElementById("task").value,
             date : document.getElementById("date").value,
             time : document.getElementById("time").value
         }
         db.toDo.put(data).then(() => {
             document.getElementById("task").value = document.getElementById("date").value = document.getElementById("time").value = "";
-            getDocs();
+            getAllDocs();
             alert("update successfully")
         }).catch((err) => {
             alert("update fail")
         });
     }
     
-    var deleteDocs = function() {
+    var deleteDocs = function(id) {
         
     }
     
     var createEl = function(record) {
         $("#task-added").append(`
-            <div class="row justify-content-lg-center">
+            <div class="row justify-content-lg-center task-added-element">
                 <div class="col-lg-2">
                     <h3 class="detail">${record.id}</h3>
                 </div>
@@ -79,10 +81,10 @@ $(document).ready(function() {
                     <h3 class="detail">${record.time}</h3>
                 </div>
                 <div class="col-lg-1">
-                    <i onclick="editOrDeleteTask('${record.id}', '${record.task}', '${record.date}', '${record.time}')" class="fas fa-edit fa-2x"></i>
+                    <i onclick="editTask(${record.id}, '${record.task}', '${record.date}', '${record.time}')" class="fas fa-edit fa-2x"></i>
                 </div>
                 <div class="col-lg-1">
-                    <i onclick="editOrDeleteTask('${record.id}', '${record.task}', '${record.date}', '${record.time}')" class="fas fa-trash-alt fa-2x"> </i> 
+                    <i onclick="deleteTask(${record.id})" class="fas fa-trash-alt fa-2x"> </i> 
                 </div>
             </div>
         `)
@@ -94,18 +96,28 @@ $(document).ready(function() {
         addDocs();
     });
 
-    $("#getDocs").click(() => { 
-        getDocs();
+    $("#getAllDocs").click(() => { 
+        getAllDocs();
     });
 
     $("#updDocs").click(() => { 
         updateDocs();
     });
+
+    $("#delAllDocs").click(() => { 
+        
+    });
 })
 
-var editOrDeleteTask = function (id, task, date, time) {  
+var db;
+
+var editTask = function (id, task, date, time) {  
     document.getElementById("id").value = id,
     document.getElementById("task").value = task,
     document.getElementById("date").value = date,
     document.getElementById("time").value = time
+}
+
+var deleteTask = function(id) {
+    db.toDo.delete(id).then(() => alert("delete successfully"))
 }
