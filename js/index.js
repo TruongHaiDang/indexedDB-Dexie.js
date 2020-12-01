@@ -52,17 +52,21 @@ $(document).ready(function() {
             date : document.getElementById("date").value,
             time : document.getElementById("time").value
         }
-        db.toDo.put(data).then(() => {
-            document.getElementById("task").value = document.getElementById("date").value = document.getElementById("time").value = "";
-            getAllDocs();
-            alert("update successfully")
-        }).catch((err) => {
-            alert("update fail")
-        });
+        if (data.task != "" && data.date != "" && data.time != "") {
+            db.toDo.put(data).then(() => {
+                document.getElementById("task").value = document.getElementById("date").value = document.getElementById("time").value = "";
+                getAllDocs();
+                alert("update successfully")
+            }).catch((err) => {
+                alert("update fail")
+            });
+        }else {
+            alert("please fill al fields")
+        }
     }
     
-    var deleteDocs = function(id) {
-        
+    var deleteAllDocs = function() {
+        db.toDo.clear()
     }
     
     var createEl = function(record) {
@@ -105,7 +109,7 @@ $(document).ready(function() {
     });
 
     $("#delAllDocs").click(() => { 
-        
+        deleteAllDocs();
     });
 })
 
