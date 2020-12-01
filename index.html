@@ -36,7 +36,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Task: </span>
                     </div>
-                    <input id="task" type="text" class="form-control text-danger" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="...">
+                    <input id="task" type="text" class="form-control text-danger" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="What would you do?">
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Date: </span>
                     </div>
-                    <input id="date" type="text" class="form-control text-danger" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="DD/MM/YY">
+                    <input id="date" type="text" class="form-control text-danger" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="DD/MM/YYYY">
                 </div>
             </div>
             <div class="col-lg-5 align-self-center">
@@ -54,7 +54,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Time: </span>
                     </div>
-                    <input id="time" type="text" class="form-control text-danger" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="hh:mm">
+                    <input id="time" type="text" class="form-control text-danger" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="hh:mm:ss">
                 </div>
             </div>
         </div>
@@ -78,7 +78,7 @@
             <div class="col-lg-6 align-self-center">
                 <h1><i class="far fa-check-circle"></i> Task added</h1>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-3">
                 <div class="dropdown">
                     <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Sort
@@ -89,6 +89,10 @@
                         <a id="reverse" class="dropdown-item" >Reverse</a>
                     </div>
                 </div>
+            </div>
+            <div class="col-lg-3">
+                <h4>Quantity of record: <span>0</span></h4>
+                <input id="slider" type="range" min="1" max="10" value="1" class="slider" id="myRange">
             </div>
         </div>
         <div class="row justify-content-lg-center">

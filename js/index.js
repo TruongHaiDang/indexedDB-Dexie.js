@@ -128,6 +128,18 @@ $(document).ready(function() {
         }
     }
 
+    var filterQuantity = function(count) {
+        db.toDo.count((cnt) => {
+            if(cnt) {
+                let sorta2z = db.toDo.limit(count);
+                $(".task-added-element").remove();
+                sorta2z.each((record) => {
+                    createEl(record)
+                })
+            }
+        })
+    }
+
     // ------------------------------------------------------------------------------------------------------------------------------------- //
 
     $("#addDocs").click(() => { 
@@ -156,6 +168,11 @@ $(document).ready(function() {
 
     $("#reverse").click(function () { 
         reverseSortRecord("reverse")
+    });
+
+    $("#slider").change(function (e) { 
+        e.preventDefault();
+        filterQuantity(e.target.value)
     });
 })
 
