@@ -94,6 +94,40 @@ $(document).ready(function() {
         `)
     }
 
+    var reverseSortRecord = function(action) {
+        if(action == "a2z") {
+            db.toDo.count((cnt) => {
+                if(cnt) {
+                    let sorta2z = db.toDo.orderBy("task");
+                    $(".task-added-element").remove();
+                    sorta2z.each((record) => {
+                        createEl(record)
+                    })
+                }
+            })
+        }else if(action == "z2a") {
+            db.toDo.count((cnt) => {
+                if(cnt) {
+                    let sorta2z = db.toDo.orderBy("task").desc();
+                    $(".task-added-element").remove();
+                    sorta2z.each((record) => {
+                        createEl(record)
+                    })
+                }
+            })
+        }else if(action =="reverse"){
+            db.toDo.count((cnt) => {
+                if(cnt) {
+                    let sorta2z = db.toDo.reverse();
+                    $(".task-added-element").remove();
+                    sorta2z.each((record) => {
+                        createEl(record)
+                    })
+                }
+            })
+        }
+    }
+
     // ------------------------------------------------------------------------------------------------------------------------------------- //
 
     $("#addDocs").click(() => { 
@@ -110,6 +144,18 @@ $(document).ready(function() {
 
     $("#delAllDocs").click(() => { 
         deleteAllDocs();
+    });
+
+    $("#sortaz").click(function () { 
+        reverseSortRecord("a2z");
+    });
+
+    $("#sortza").click(function () { 
+        reverseSortRecord("z2a");
+    });
+
+    $("#reverse").click(function () { 
+        reverseSortRecord("reverse")
     });
 })
 

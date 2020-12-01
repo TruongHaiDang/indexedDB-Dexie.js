@@ -26,7 +26,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">ID: </span>
                     </div>
-                    <input id="id" type="text" class="form-control text-danger" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required disabled>
+                    <input id="id" type="text" class="form-control text-danger" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" disabled>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Task: </span>
                     </div>
-                    <input id="task" type="text" class="form-control text-danger" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+                    <input id="task" type="text" class="form-control text-danger" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="...">
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Date: </span>
                     </div>
-                    <input id="date" type="text" class="form-control text-danger" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+                    <input id="date" type="text" class="form-control text-danger" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="DD/MM/YY">
                 </div>
             </div>
             <div class="col-lg-5 align-self-center">
@@ -54,7 +54,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Time: </span>
                     </div>
-                    <input id="time" type="text" class="form-control text-danger" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+                    <input id="time" type="text" class="form-control text-danger" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="hh:mm">
                 </div>
             </div>
         </div>
@@ -77,6 +77,18 @@
         <div class="row justify-content-lg-center title">
             <div class="col-lg-6 align-self-center">
                 <h1><i class="far fa-check-circle"></i> Task added</h1>
+            </div>
+            <div class="col-lg-6">
+                <div class="dropdown">
+                    <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Sort
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a id="sortaz" class="dropdown-item" >From A -> Z</a>
+                        <a id="sortza" class="dropdown-item" >Form Z <- A</a>
+                        <a id="reverse" class="dropdown-item" >Reverse</a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row justify-content-lg-center">

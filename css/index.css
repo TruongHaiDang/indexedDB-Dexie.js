@@ -14,6 +14,10 @@
     margin: 5px;
 }
 
+.btn-info {
+    width: 35%;
+}
+
 body {
     background-color: black !important;
     background-color: black;
