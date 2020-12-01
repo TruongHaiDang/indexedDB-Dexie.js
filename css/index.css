@@ -1,0 +1,24 @@
+* {
+    padding: 0;
+    margin: 0;
+    background-color: black;
+    color: green;
+}
+
+.title {
+    text-align: center;
+    margin: 1em 0;
+}
+
+.btn {
+    width: 100%;
+    margin: 5px;
+}
+
+body {
+    background-color: black !important;
+}
+
+h3 {
+    color: orange;
+}
