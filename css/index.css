@@ -22,3 +22,7 @@ body {
 h3 {
     color: orange;
 }
+
+.detail {
+    color: rgb(0, 255, 0);
+}

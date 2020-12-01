@@ -60,20 +60,20 @@
         </div>
         <div class="row">
             <div class="col-lg-3 align-self-center">
-                <button type="button" class="btn btn-primary" onclick="getDocs()">Get</button>
+                <button id="getDocs" type="button" class="btn btn-primary">Get</button>
             </div>
             <div class="col-lg-3 align-self-center">
-                <button type="button" class="btn btn-success" onclick="addDocs()">Add</button>
+                <button id="addDocs" type="button" class="btn btn-success">Add</button>
             </div>
             <div class="col-lg-3 align-self-center">
-                <button type="button" class="btn btn-warning" onclick="updateDocs()">Update</button>
+                <button id="updDocs" type="button" class="btn btn-warning">Update</button>
             </div>
             <div class="col-lg-3 align-self-center">
-                <button type="button" class="btn btn-danger" onclick="deleteDocs()">Delete</button>
+                <button id="delDocs" type="button" class="btn btn-danger">Delete</button>
             </div>
         </div>
     </div>
-    <div class="container">
+    <div class="container" id="task-added">
         <div class="row justify-content-lg-center title">
             <div class="col-lg-6 align-self-center">
                 <h1><i class="far fa-check-circle"></i> Task added</h1>
@@ -83,7 +83,7 @@
             <div class="col-lg-2">
                 <h3>ID</h3>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <h3>Task</h3>
             </div>
             <div class="col-lg-2">
@@ -91,6 +91,12 @@
             </div>
             <div class="col-lg-2">
                 <h3>Time</h3>
+            </div>
+            <div class="col-lg-1">
+                <h3>Edit</h3>
+            </div>
+            <div class="col-lg-1">
+                <h3>Delete</h3>
             </div>
         </div>
     </div>
