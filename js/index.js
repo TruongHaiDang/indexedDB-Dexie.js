@@ -172,6 +172,7 @@ $(document).ready(function() {
 
     $("#slider").change(function (e) { 
         e.preventDefault();
+        document.getElementById("qty").innerHTML = e.target.value;
         filterQuantity(e.target.value)
     });
 })
