@@ -1,6 +1,7 @@
 $(document).ready(function() {
     // ------------------------------------------------------------ DECLARING FUNCTION AND VARIABLE ------------------------------------------------------------ //
     var count = 1;
+    document.getElementById("slider").max = 1;
 
     function createIndexedDB(dbName, dbVersion, table, upgrade) {  
         const db = new Dexie(dbName)
@@ -16,17 +17,33 @@ $(document).ready(function() {
     var db = createIndexedDB("to-Do List", 1, {
                 toDo: `++id, *task, date, time`
             }, {});
+
+    db.on("ready", function() { console.log("Database ready"); });
+
+    db.on("versionchange", function(event) {
+        if (confirm ("Another page tries to upgrade the database to version " +
+                        event.newVersion + ". Accept?")) {
+            window.location.reload();
+        } else {
+            return false;
+        }
+    });
     
     var getAllDocs = function() {
         db.toDo.count((cnt) => {
             if(cnt) {
                 $(".task-added-element").remove();
+                document.getElementById("slider").max = cnt;
                 db.toDo.each((record) => {
                     createEl(record)
                 })
             }
         })
     }
+
+    db.toDo.hook('deleting', function (primKey, obj, transaction) {
+        getAllDocs();
+    });
     
     var addDocs = function () {
         let data = {
@@ -39,9 +56,9 @@ $(document).ready(function() {
                 .then((result) => {
                     document.getElementById("task").value = document.getElementById("date").value = document.getElementById("time").value = "";
                     getAllDocs();
-                    alert("added successfully")
+                    console.log("added successfully")
                 }).catch((err) => {
-                    alert("added fail")
+                    console.log("added fail")
                 });
         }else {
             alert("please fill al fields")
@@ -59,9 +76,9 @@ $(document).ready(function() {
             db.toDo.put(data).then(() => {
                 document.getElementById("task").value = document.getElementById("date").value = document.getElementById("time").value = "";
                 getAllDocs();
-                alert("update successfully")
+                console.log("update successfully")
             }).catch((err) => {
-                alert("update fail")
+                console.log("update fail")
             });
         }else {
             alert("please fill al fields")
@@ -69,7 +86,9 @@ $(document).ready(function() {
     }
     
     var deleteAllDocs = function() {
-        db.toDo.clear()
+        db.toDo.clear().then(() => {
+            console.log("delete successfully")
+        })
     }
     
     var createEl = function(record) {
@@ -98,36 +117,46 @@ $(document).ready(function() {
     }
 
     var reverseSortRecord = function(action) {
-        if(action == "a2z") {
-            db.toDo.count((cnt) => {
-                if(cnt) {
-                    let sorta2z = db.toDo.orderBy("task").limit(count);
-                    $(".task-added-element").remove();
-                    sorta2z.each((record) => {
-                        createEl(record)
-                    })
-                }
-            })
-        }else if(action == "z2a") {
-            db.toDo.count((cnt) => {
-                if(cnt) {
-                    let sorta2z = db.toDo.orderBy("task").desc().limit(count);
-                    $(".task-added-element").remove();
-                    sorta2z.each((record) => {
-                        createEl(record)
-                    })
-                }
-            })
-        }else if(action =="reverse"){
-            db.toDo.count((cnt) => {
-                if(cnt) {
-                    let sorta2z = db.toDo.reverse().limit(count);
-                    $(".task-added-element").remove();
-                    sorta2z.each((record) => {
-                        createEl(record)
-                    })
-                }
-            })
+        switch(action) {
+            case "a2z": 
+            {
+                db.toDo.count((cnt) => {
+                    if(cnt) {
+                        let sorta2z = db.toDo.orderBy("task").limit(count);
+                        $(".task-added-element").remove();
+                        sorta2z.each((record) => {
+                            createEl(record)
+                        })
+                    }
+                });
+                break;
+            }
+            case "z2a": 
+            {
+                db.toDo.count((cnt) => {
+                    if(cnt) {
+                        let sorta2z = db.toDo.orderBy("task").desc().limit(count);
+                        $(".task-added-element").remove();
+                        sorta2z.each((record) => {
+                            createEl(record)
+                        })
+                    }
+                });
+                break;
+            }
+            case "reverse": 
+            {
+                db.toDo.count((cnt) => {
+                    if(cnt) {
+                        let sorta2z = db.toDo.reverse().limit(count);
+                        $(".task-added-element").remove();
+                        sorta2z.each((record) => {
+                            createEl(record)
+                        })
+                    }
+                });
+                break;
+            }
         }
     }
 
@@ -180,5 +209,5 @@ var editTask = function (id, task, date, time) {
 }
 
 var deleteTask = function(id) {
-    db.toDo.delete(id).then(() => alert("delete successfully"))
+    db.toDo.delete(id).then(() => console.log("delete successfully"))
 }
