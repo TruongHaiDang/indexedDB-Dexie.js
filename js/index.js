@@ -14,11 +14,11 @@ $(document).ready(function() {
         return db;
     }
     
-    var db = createIndexedDB("to-Do List", 1, {
+    var db = createIndexedDB("To-Do List", 1, {
                 toDo: `++id, *task, date, time`
             }, {});
 
-    db.on("ready", function() { console.log("Database ready"); });
+    db.on("ready", function() { console.log("Database is ready with version " + db.verno); });
 
     db.on("versionchange", function(event) {
         if (confirm ("Another page tries to upgrade the database to version " +
