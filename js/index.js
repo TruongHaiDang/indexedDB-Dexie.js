@@ -9,29 +9,27 @@ $(document).ready(function() {
             .upgrade(tx => {
                 upgrade
             });
-        
-        // db.on('changes', function (changes) {
-        //     changes.forEach(function (change) {
-        //     switch (change.type) {
-        //         case 1: // CREATED
-        //         {
-        //             console.log('An object was created: ' + JSON.stringify(change.obj));
-        //             break;
-        //         }
-        //         case 2: // UPDATED
-        //         {
-        //             console.log('An object with key ' + change.key + ' was updated with modifications: ' + JSON.stringify(change.mods));
-        //             break;
-        //         }   
-        //         case 3: // DELETED
-        //         {
-        //             console.log('An object was deleted: ' + JSON.stringify(change.oldObj));
-        //             break;
-        //         }
-        //         }
-        //     });
-        // });
-
+        db.on('changes', function (changes) {
+            changes.forEach(function (change) {
+            switch (change.type) {
+                case 1: // CREATED
+                {
+                    console.log('An object was created: ' + JSON.stringify(change.obj));
+                    break;
+                }
+                case 2: // UPDATED
+                {
+                    console.log('An object with key ' + change.key + ' was updated with modifications: ' + JSON.stringify(change.mods));
+                    break;
+                }   
+                case 3: // DELETED
+                {
+                    console.log('An object was deleted: ' + JSON.stringify(change.oldObj));
+                    break;
+                }
+                }
+            });
+        });
         db.open();
         window.db = db;
         return db;
