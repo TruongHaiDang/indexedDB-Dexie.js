@@ -161,11 +161,11 @@ $(document).ready(function() {
         reverseSortRecord("reverse")
     });
 
-    // $("#slider").change(function (e) { 
-    //     e.preventDefault();
-    //     document.getElementById("qty").innerHTML = e.target.value;
-    //     count = e.target.value;
-    // });
+    $("#slider").change(function (e) { 
+        e.preventDefault();
+        document.getElementById("qty").innerHTML = e.target.value;
+        count = e.target.value;
+    });
 })
 
 // ---------------------------------------------------------------- OUT OF JQUERY ----------------------------------------------------------------- //
