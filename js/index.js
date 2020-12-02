@@ -1,5 +1,6 @@
 $(document).ready(function() {
     // ------------------------------------------------------------ DECLARING FUNCTION AND VARIABLE ------------------------------------------------------------ //
+    var count = 1;
 
     function createIndexedDB(dbName, dbVersion, table, upgrade) {  
         const db = new Dexie(dbName)
@@ -100,7 +101,7 @@ $(document).ready(function() {
         if(action == "a2z") {
             db.toDo.count((cnt) => {
                 if(cnt) {
-                    let sorta2z = db.toDo.orderBy("task");
+                    let sorta2z = db.toDo.orderBy("task").limit(count);
                     $(".task-added-element").remove();
                     sorta2z.each((record) => {
                         createEl(record)
@@ -110,7 +111,7 @@ $(document).ready(function() {
         }else if(action == "z2a") {
             db.toDo.count((cnt) => {
                 if(cnt) {
-                    let sorta2z = db.toDo.orderBy("task").desc();
+                    let sorta2z = db.toDo.orderBy("task").desc().limit(count);
                     $(".task-added-element").remove();
                     sorta2z.each((record) => {
                         createEl(record)
@@ -120,7 +121,7 @@ $(document).ready(function() {
         }else if(action =="reverse"){
             db.toDo.count((cnt) => {
                 if(cnt) {
-                    let sorta2z = db.toDo.reverse();
+                    let sorta2z = db.toDo.reverse().limit(count);
                     $(".task-added-element").remove();
                     sorta2z.each((record) => {
                         createEl(record)
@@ -128,18 +129,6 @@ $(document).ready(function() {
                 }
             })
         }
-    }
-
-    var filterQuantity = function(count) {
-        db.toDo.count((cnt) => {
-            if(cnt) {
-                let sorta2z = db.toDo.limit(count);
-                $(".task-added-element").remove();
-                sorta2z.each((record) => {
-                    createEl(record)
-                })
-            }
-        })
     }
 
     // ------------------------------------------------------------ EVENTS PROCESSING ------------------------------------------------------------ //
@@ -175,7 +164,7 @@ $(document).ready(function() {
     $("#slider").change(function (e) { 
         e.preventDefault();
         document.getElementById("qty").innerHTML = e.target.value;
-        filterQuantity(e.target.value)
+        count = e.target.value;
     });
 })
 
