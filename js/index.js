@@ -1,14 +1,29 @@
+// Bắt đầu với jquery
 $(document).ready(function() {
     // ------------------------------------------------------------ DECLARING FUNCTION AND VARIABLE ------------------------------------------------------------ //
     var count = 1;
     document.getElementById("slider").max = 1;
-
+    /**
+     * Hàm createIndexedDB dùng để tạo database nếu chưa tồn tại hoặc kết nối với cơ sở dữ liệu nếu đã tồn tại
+     * Tham số: dbName tên database
+     *          dbVersion phiên bản database
+     *          table cấu trúc database khi khởi tạo
+     *          upgrade cấu trúc database khi nâng cấp
+     * upgrade() chỉ kích hoạt khi dbVersion thay đổi
+     * 
+     * đối tượng table và upgrade tham khảo phần "Declare Database" ở link sau https://dexie.org/docs/API-Reference#quick-reference
+     */
     function createIndexedDB(dbName, dbVersion, table, upgrade) {  
         const db = new Dexie(dbName)
         db.version(dbVersion).stores(table)
             .upgrade(tx => {
                 upgrade
             });
+        /**
+         * Tính năng của Dexie.Observable một addons của dexie có tính năng đồng bộ database
+         * Để xử dụng được cần thư viện "dexie-observable.min.js" và thay ký tự khai báo khóa chính mặc định là ++ thành &&
+         * Chi tiết tại link https://dexie.org/docs/Observable/Dexie.Observable
+         */
         db.on('changes', function (changes) {
             changes.forEach(function (change) {
             switch (change.type) {
@@ -30,15 +45,25 @@ $(document).ready(function() {
                 }
             });
         });
-        db.open();
-        window.db = db;
+        db.open(); // Gọi khi hoàn tất để xác nhận khởi tạo database
+        window.db = db; // Truyền đối tượng db ra bên ngoài jquery (*)
         return db;
     }
-    
+    /**
+     * Đoạn code dưới khởi tạo đối tượng db 
+     * db là một đối tượng dexie trả về khi tạo hoặc kết nối với cơ sở dữ liệu từ hàm createIndexedDB()
+     * trong indexedDB để thực hiện thêm xóa sửa đều phải thực hiện theo quy trình: khởi tạo/kết nối database => kết nối objectStore(nơi chứa dữ liệu) => thao tác người dùng muốn
+     * (*) đây là lý do mà có dòng window.db = db ở trên vì bên ngoài jquery không nhận được đối tượng db
+     */
     var db = createIndexedDB("To-Do List", 1, {
                 toDo: `$$id, *task, date, time`
             }, {});
-
+    /**
+     * Trong dexie.js thuộc tính on dùng để lắng nghe sự kiện
+     * ready: là database đã được tạo hoàn toàn và có thẻ hoạt động, db.verno cung cấp phiên bản hiện tại của database
+     * versionchange: kích hoạt khi dbVersion thay đổi, đoạn code dưới dùng để thông báo rằng phiên bản cơ sở dữ liệu đã được thay đổi và tải lại trang
+     * vì indexedDB sẽ không hoạt động nếu phiên bản(dbVersion) bị lỗi thời
+     */
     db.on("ready", function() { console.log("Database is ready with version " + db.verno); });
 
     db.on("versionchange", function(event) {
@@ -49,7 +74,12 @@ $(document).ready(function() {
             return false;
         }
     });
-    
+    /**
+     * db là một đối tượng dexie trả về khi kết nối với database 
+     * objectStore là toDo
+     * count() cho biết số lượng bản ghi có trong objectStore
+     * each() duyệt qua từng bản ghi trong objectStore
+     */
     var getAllDocs = function() {
         db.toDo.count((cnt) => {
             if(cnt) {
@@ -61,11 +91,11 @@ $(document).ready(function() {
             }
         })
     }
-
+    // hook hoạt động giống như on, dùng để lắng nghe sự kiện
     db.toDo.hook('deleting', function (primKey, obj, transaction) {
         getAllDocs();
     });
-    
+    // bulkAdd() dùng để ghi nhiều dữ liệu tương ứng có Add() mỗi lần chỉ ghi một dữ liệu
     var addDocs = function () {
         let data = {
             task : document.getElementById("task").value,
@@ -85,7 +115,12 @@ $(document).ready(function() {
             alert("please fill al fields")
         }
     }
-    
+    /**
+     * put()/bulkPut() có hai chức năng một là ghi dữ liệu vào objectStore nếu nó chưa tồn tại hoặc cập nhật nếu nó đã tồn tại 
+     * dữ liệu tồn tại hay chưa dựa vào trường khóa chính hay id (khóa chính là trường mà có hai dấu ++ hoặc $$ ở trước khi khởi tạo database)
+     * nếu id giống nhau thì là đã tồn tại và ngược lại 
+     * Chú ý là Add()/bulkAdd() không thể làm được việc này
+     */ 
     var updateDocs = function() {
         let data = {
             id : Number(document.getElementById("id").value),
@@ -105,13 +140,13 @@ $(document).ready(function() {
             alert("please fill al fields")
         }
     }
-    
+    // clear() là một hàm của objectStore có chức năng xóa hết bản ghi trong objectStore đó, hàm này tác động lên objectStore
     var deleteAllDocs = function() {
         db.toDo.clear().then(() => {
             console.log("delete successfully")
         })
     }
-    
+
     var createEl = function(record) {
         $("#task-added").append(`
             <div class="row justify-content-lg-center task-added-element">
@@ -136,7 +171,15 @@ $(document).ready(function() {
             </div>
         `)
     }
-
+    /**
+     * Dexie.js cung cấp nhiều chức năng lọc và làm nó gần với quy chuẩn nhất có thể
+     * vd: where(), orderBy(), sortBy(), limit(),...
+     * vì các hàm trong indexedDB là các promise nên có thể kết hợp các hàm lọc lại với nhau
+     * vd: db.friends
+            .where('age').above(25)
+            .orderBy('name').limit(5)
+        
+     */
     var reverseSortRecord = function(action) {
         switch(action) {
             case "a2z": 
@@ -220,7 +263,7 @@ $(document).ready(function() {
 
 // ---------------------------------------------------------------- OUT OF JQUERY ----------------------------------------------------------------- //
 
-var db;
+var db; // (*) biến hứng - nhận đối tượng db
 
 var editTask = function (id, task, date, time) {  
     document.getElementById("id").value = id,
@@ -228,7 +271,9 @@ var editTask = function (id, task, date, time) {
     document.getElementById("date").value = date,
     document.getElementById("time").value = time
 }
-
+// delete() dùng để xóa bản ghi, hàm này tác động lên bản khi không phải objectStore, tương ứng là bulkDelete()
 var deleteTask = function(id) {
     db.toDo.delete(id).then(() => console.log("delete successfully"))
 }
+
+// Truy cập https://dexie.org/docs để có thêm thông tin
