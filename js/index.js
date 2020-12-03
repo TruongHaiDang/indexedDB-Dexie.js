@@ -12,6 +12,7 @@ $(document).ready(function() {
      * upgrade() chỉ kích hoạt khi dbVersion thay đổi
      * 
      * đối tượng table và upgrade tham khảo phần "Declare Database" ở link sau https://dexie.org/docs/API-Reference#quick-reference
+     * khi khởi tạo chỉ đưa những thứ cần thiết vào table, sau này có thể sử dụng Dexie.defineClass() hoặc Table.mapToClass() để tạo thêm objectStore
      */
     function createIndexedDB(dbName, dbVersion, table, upgrade) {  
         const db = new Dexie(dbName)
@@ -163,10 +164,10 @@ $(document).ready(function() {
                     <h3 class="detail">${record.time}</h3>
                 </div>
                 <div class="col-lg-1">
-                    <i onclick="editTask(${record.id}, '${record.task}', '${record.date}', '${record.time}')" class="fas fa-edit fa-2x"></i>
+                    <i onclick="editTask('${record.id}', '${record.task}', '${record.date}', '${record.time}')" class="fas fa-edit fa-2x"></i>
                 </div>
                 <div class="col-lg-1">
-                    <i onclick="deleteTask(${record.id})" class="fas fa-trash-alt fa-2x"> </i> 
+                    <i onclick="deleteTask('${record.id}')" class="fas fa-trash-alt fa-2x"> </i> 
                 </div>
             </div>
         `)
