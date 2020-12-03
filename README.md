@@ -51,4 +51,4 @@ Chú ý: Nếu mở 2 tab khi ghi dữ liệu ở một tab thì tab còn lại 
 Nút sort để sắp xếp dữ liệu và thanh trượt sẽ quy định số dữ liệu được ghi ra, giá trị lớn nhất của thanh
 trượt là số lượng dữ liệu
 
-Live demo: <a href="https://truonghaidang.github.io/indexedDB-Dexie.js"></a>
+Live demo: https://truonghaidang.github.io/indexedDB-Dexie.js
