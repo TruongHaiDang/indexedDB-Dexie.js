@@ -19,13 +19,14 @@ Các nút trên giao diện:<br />
 Lần lượt các chức năng
     1) Add dùng ghi dữ liệu<br />
         dữ liệu sau khi được ghi sẽ xuất hiện phía dưới<br />
-<img src="./img/4.jpg" alt="..." width="100%" />
-<img src="./img/5.jpg" alt="..." width="100%" />
+<img src="./img/4.jpg" alt="..." width="50%" /> <img src="./img/5.jpg" alt="..." width="50%" />
     2) Get All dùng lấy tất cả dữ liệu<br />
         dữ liệu sau khi được lấy sẽ xuất hiện phía dưới<br />
 <img src="./img/5.jpg" alt="..." width="100%" />
     3) Update dùng cập nhật dữ liệu<br />
-        dữ liệu sau khi được cập nhật sẽ xuất hiện vào chỗ dữ liệu cũ<br />
-<img src="./img/6.jpg" alt="..." width="100%" />
+        dữ liệu sau khi được cập nhật sẽ xuất hiện vào chỗ dữ liệu cũ, 
+        để thực hiện chỉnh sửa dữ liệu ta nhấn vào nút edit màu vàng tương ứng để thông 
+        tin hiện lên lại các ô input sau đó đổi dữ liệu và nhấn Update
+<img src="./img/6.jpg" alt="..." width="50%" /> <img src="./img/6.jpg" alt="..." width="50%" />
     4) Delete All Xóa toàn bộ dữ liệu<br />
         dữ liệu sau khi xóa sẽ mất hết<br />

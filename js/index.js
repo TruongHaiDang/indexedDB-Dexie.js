@@ -124,7 +124,7 @@ $(document).ready(function() {
      */ 
     var updateDocs = function() {
         let data = {
-            id : Number(document.getElementById("id").value),
+            id : document.getElementById("id").value,
             task : document.getElementById("task").value,
             date : document.getElementById("date").value,
             time : document.getElementById("time").value
