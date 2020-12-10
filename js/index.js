@@ -3,6 +3,7 @@ $(document).ready(function() {
     // ------------------------------------------------------------ DECLARING FUNCTION AND VARIABLE ------------------------------------------------------------ //
     var count = 1;
     document.getElementById("slider").max = 1;
+    Dexie.debug = true;
     /**
      * Hàm createIndexedDB dùng để tạo database nếu chưa tồn tại hoặc kết nối với cơ sở dữ liệu nếu đã tồn tại
      * Tham số: dbName tên database
@@ -30,17 +31,17 @@ $(document).ready(function() {
             switch (change.type) {
                 case 1: // CREATED
                 {
-                    console.log('An object was created: ' + JSON.stringify(change.obj));
+                    // console.log('An object was created: ' + JSON.stringify(change.obj));
                     break;
                 }
                 case 2: // UPDATED
                 {
-                    console.log('An object with key ' + change.key + ' was updated with modifications: ' + JSON.stringify(change.mods));
+                    // console.log('An object with key ' + change.key + ' was updated with modifications: ' + JSON.stringify(change.mods));
                     break;
                 }   
                 case 3: // DELETED
                 {
-                    console.log('An object was deleted: ' + JSON.stringify(change.oldObj));
+                    // console.log('An object was deleted: ' + JSON.stringify(change.oldObj));
                     break;
                 }
                 }
@@ -56,7 +57,7 @@ $(document).ready(function() {
      * trong indexedDB để thực hiện thêm xóa sửa đều phải thực hiện theo quy trình: khởi tạo/kết nối database => kết nối objectStore(nơi chứa dữ liệu) => thao tác người dùng muốn
      * (*) đây là lý do mà có dòng window.db = db ở trên vì bên ngoài jquery không nhận được đối tượng db
      */
-    var db = createIndexedDB("To-Do List", 1, {
+    var db = createIndexedDB("To-Do-List", 1, {
                 toDo: `$$id, *task, date, time`
             }, {});
     /**
@@ -110,7 +111,7 @@ $(document).ready(function() {
                     getAllDocs();
                     console.log("added successfully")
                 }).catch((err) => {
-                    console.log("added fail")
+                    console.log("added fail: " + err)
                 });
         }else {
             alert("please fill al fields")
@@ -224,6 +225,11 @@ $(document).ready(function() {
             }
         }
     }
+
+    db.syncable.connect ("websocket", "ws://localhost:8080");
+    db.syncable.on('statusChanged', function (newStatus, url) {
+        console.log ("Sync Status changed: " + Dexie.Syncable.StatusTexts[newStatus]);
+    });
 
     // ------------------------------------------------------------ EVENTS PROCESSING ------------------------------------------------------------ //
 
