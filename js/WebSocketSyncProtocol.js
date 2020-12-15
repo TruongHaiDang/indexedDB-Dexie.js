@@ -35,7 +35,7 @@
                 //      changes: changes,
                 //      partial: partial,
                 //      requestId: id
-                //  }
+                //  }D:\MongoDB
                 //  To make the sample simplified, we assume the server has the exact same specification of how changes are structured.
                 //  In real world, you would have to pre-process the changes array to fit the server specification.
                 //  However, this example shows how to deal with the WebSocket to fullfill the API.
@@ -89,6 +89,7 @@
             var isFirstRound = true;
             // When message arrive from the server, deal with the message accordingly:
             ws.onmessage = function (event) {
+                console.log("ben ngoai", event)
                 try {
                     // Assume we have a server that should send JSON messages of the following format:
                     // {
@@ -129,6 +130,23 @@
                         var requestId = requestFromServer.requestId;
                         ws.close();
                         onError(requestFromServer.message, Infinity); // Don't reconnect - an error in application level means we have done something wrong.
+                    }else if(requestFromServer.type == "dbChanges") {
+                        // console.log('front-end hello');
+                        // applyRemoteChanges(requestFromServer.changes, requestFromServer.currentRevision, requestFromServer.partial);
+                        // if (isFirstRound && !requestFromServer.partial) {
+                        //     // Since this is the first sync round and server sais we've got all changes - now is the time to call onsuccess()
+                        //     onSuccess({
+                        //         // Specify a react function that will react on additional client changes
+                        //         react: function (changes, baseRevision, partial, onChangesAccepted) {
+                        //             sendChanges(changes, baseRevision, partial, onChangesAccepted);
+                        //         },
+                        //         // Specify a disconnect function that will close our socket so that we dont continue to monitor changes.
+                        //         disconnect: function () {
+                        //             ws.close();
+                        //         }
+                        //     });
+                        //     isFirstRound = false;
+                        // }
                     }
                 } catch (e) {
                     ws.close();
