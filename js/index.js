@@ -226,7 +226,7 @@ $(document).ready(function() {
         }
     }
 
-    db.syncable.connect ("websocket", "ws://localhost:8080");
+    db.syncable.connect ("websocket", "ws://localhost:8001");
     db.syncable.on('statusChanged', function (newStatus, url) {
         console.log ("Sync Status changed: " + Dexie.Syncable.StatusTexts[newStatus]);
     });
