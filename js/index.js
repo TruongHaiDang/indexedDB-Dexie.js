@@ -225,7 +225,12 @@ $(document).ready(function() {
             }
         }
     }
-
+    /**
+     * Kết nối tới socket server có chức năng đồng bộ
+     * các tham số lần lượt là:
+     * - protocol: giao thức được định nghĩa trong WebSocketSyncProtocol.js
+     * - server url: url trỏ tới socket server có chức năng đồng - lưu ý bộ bắt đầu bằng ws: hoặc wss:
+     */
     db.syncable.connect ("websocket", "ws://localhost:8001");
     db.syncable.on('statusChanged', function (newStatus, url) {
         console.log ("Sync Status changed: " + Dexie.Syncable.StatusTexts[newStatus]);
